@@ -1,9 +1,7 @@
 #!/usr/bin/node
-if (process.argv.length <= 3) {
+const argsArray = Array.from(arguments).map(Number);
+if (argsArray.length <= 1) {
   console.log(0);
-} else {
-  const args = process.argv.map(Number)
-    .slice(2, process.argv.length)
-    .sort((a, b) => a - b);
-  console.log(args[args.length - 2]);
 }
+const sortedArgs = argsArray.sort((a, b) => b - a);
+console.log(sortedArgs[1]);
