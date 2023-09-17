@@ -11,8 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 def print_first_state():
     """
-    Description: 
-   
+    Description:
     Print the first element of a table
     """
     engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.format(
