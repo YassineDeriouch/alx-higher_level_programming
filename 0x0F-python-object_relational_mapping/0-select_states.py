@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Python script to lists all states from the database hbtn_0e_0_usa"""
+"""Python script to list all states from the database hbtn_0e_0_usa"""
 
 import MySQLdb
 import sys
