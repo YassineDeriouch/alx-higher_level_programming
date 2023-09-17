@@ -1,21 +1,13 @@
 #!/usr/bin/python3
-"""Python script to list all
-states with a name starting
-with letter N in hbtn_0e_0_usa DB
-safe from MySQL injections!
-"""
+
 import MySQLdb
 import sys
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
-        print("Usage: python script.py\
-            <username> <password> <database> <state_name>")
+    if len(sys.argv) != 4:
+        print("Usage: python script.py <username> <password> <database>")
     else:
-        username,
-        password,
-        database,
-        state_name = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+        username, password, database = sys.argv[1], sys.argv[2], sys.argv[3]
 
         try:
             db = MySQLdb.connect(
@@ -29,18 +21,16 @@ if __name__ == '__main__':
             cur = db.cursor()
 
             cur.execute("""
-                SELECT cities.name
+                SELECT cities.id, cities.name, states.name
                 FROM cities
                 JOIN states ON cities.state_id = states.id
-                WHERE states.name = %s
                 ORDER BY cities.id ASC;
-            """, (state_name,))
+            """)
 
             rows = cur.fetchall()
 
-            if rows:
-                cities = [row[0] for row in rows]
-                print(", ".join(cities))
+            for row in rows:
+                print(row)
 
         except MySQLdb.Error as e:
             print("MySQL Error:", e)
