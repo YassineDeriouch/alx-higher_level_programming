@@ -1,37 +1,51 @@
 #!/usr/bin/python3
+"""Python script to list all
+states with a name starting
+with letter N in hbtn_0e_0_usa DB
+safe from MySQL injections!
 """
-This script lists all cities from
-the database `hbtn_0e_4_usa`.
-"""
-
 import MySQLdb
-from sys import argv
+import sys
 
 if __name__ == '__main__':
-    """
-    Access to the database and get the cities
-    from the database.
-    """
+    if len(sys.argv) != 5:
+        print("Usage: python script.py\
+            <username> <password> <database> <state_name>")
+    else:
+        username,
+        password,
+        database,
+        state_name = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 
-    db = MySQLdb.connect(host="localhost", user=argv[1], port=3306,
-                         passwd=argv[2], db=argv[3])
+        try:
+            db = MySQLdb.connect(
+                host="localhost",
+                user=username,
+                port=3306,
+                passwd=password,
+                db=database
+            )
 
-    with db.cursor() as cur:
-        cur.execute("""
-            SELECT
-                cities.id, cities.name, states.name
-            FROM
-                cities
-            JOIN
-                states
-            ON
-                cities.state_id = states.id
-            ORDER BY
-                cities.id ASC
-        """)
+            cur = db.cursor()
 
-        rows = cur.fetchall()
+            cur.execute("""
+                SELECT cities.name
+                FROM cities
+                JOIN states ON cities.state_id = states.id
+                WHERE states.name = %s
+                ORDER BY cities.id ASC;
+            """, (state_name,))
 
-    if rows is not None:
-        for row in rows:
-            print(row)
+            rows = cur.fetchall()
+
+            if rows:
+                cities = [row[0] for row in rows]
+                print(", ".join(cities))
+
+        except MySQLdb.Error as e:
+            print("MySQL Error:", e)
+        finally:
+            if 'cur' in locals():
+                cur.close()
+            if 'db' in locals():
+                db.close()
