@@ -3,23 +3,14 @@
 
 
 def find_peak(list_of_integers):
-    """ Call another function in recursive way """
-    if (not len(list_of_integers)):
-        return None
-    return peak(list_of_integers, 0, len(list_of_integers) - 1)
-
-
-def peak(arr, start, end):
-    """ Find the peak element """
-    if (start >= end):
-        return arr[end]
-
-    mid = int(start + (end - start) / 2)
-
-    if (arr[mid] > arr[mid-1] and arr[mid] > arr[mid+1]):
-        return arr[mid]
-    elif (arr[mid] < arr[mid+1]):
-        return peak(arr, mid+1, end)
-    else:
-        return peak(arr, start, mid-1)
-
+    """A function that finds a peak in a list of unsorted integers"""
+    pre = 0
+    for index, val in enumerate(list_of_integers):
+        if index:
+            pre = list_of_integers[index - 1]
+        if index < len(list_of_integers) - 1:
+            next = list_of_integers[index + 1]
+        else:
+            next = 0
+        if val >= pre and val >= next:
+            return val
