@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Python script to displays the value of the X-Request-Id 
+Python script to displays the value of the X-Request-Id
 variable found in the header of the response
 """
 from sys import argv
